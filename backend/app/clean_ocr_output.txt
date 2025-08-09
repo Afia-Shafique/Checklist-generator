@@ -1,0 +1,355 @@
+KINGDOM OF SAUDI ARABIA
+MINISTRY OF MUNICIPAL AND RURAL AFFAIRS
+AL-RIYADH DEVELOPMENT AUTHORITY
+INVITATION TO BID
+CONSTRUCTION OF AL-NAKHEEL MIXED-USE DEVELOPMENT
+PROJECT NO: RDA-2024-MUD-018
+BID REFERENCE: IFB/RDA/2024/C/0892
+SECTION 1: PROJECT OVERVIEW
+1.1 PROJECT IDENTIFICATION
+Project Name: Al-Nakheel Mixed-Use Development
+Location: King Fahd Road, Al-Olaya District, Riyadh
+Client: Al-Riyadh Development Authority
+Project Value: SAR 450,000,000 (Four Hundred Fifty Million Saudi Riyals)
+Contract Duration: 36 Months
+Completion Date: December 31, 2027
+1.2 PROJECT DESCRIPTION
+The Al-Nakheel Mixed-Use Development is a comprehensive urban development project comprising:
+Two residential towers (25 floors each) with 480 luxury apartments
+One commercial tower (30 floors) with office spaces and retail outlets
+Underground parking facility (4 levels) for 1,200 vehicles
+Landscaped plaza and recreational facilities
+Integrated MEP systems and smart building technologies
+Total built-up area: 285,000 square meters
+Plot area: 25,000 square meters
+1.3 SITE CONDITIONS
+Coordinates: 24°41'15.2"N 46°40'28.8"E
+Soil Type: Dense sand with rock formation at 15m depth
+Groundwater Level: 22 meters below ground level
+Site Access: Three access points from King Fahd Road and Al-Olaya Street
+Utilities: All municipal services available at site boundary
+Environmental Considerations: Green building certification (LEED Gold equivalent) required
+SECTION 2: SCOPE OF WORK
+2.1 GENERAL SCOPE
+The contractor shall provide all labor, materials, equipment, and services necessary for the complete construction of the Al-Nakheel Mixed-Use Development in accordance with:
+Approved architectural and engineering drawings
+Technical specifications
+Saudi Building Code (SBC) requirements
+Local municipal regulations
+International standards as specified
+2.2 DETAILED SCOPE OF WORK
+2.2.1 SITE PREPARATION AND EARTHWORK
+Site clearance and demolition of existing structures (warehouse building 2,500 sqm)
+Excavation for basement levels to maximum depth of 18 meters
+Soil improvement using stone columns for areas with bearing capacity below 300 kN/m²
+Dewatering system installation and operation throughout construction period
+Shoring and support systems for excavation using secant pile walls
+Backfilling and compaction around foundations using approved materials
+Site grading and leveling to achieve design elevations ±25mm tolerance
+2.2.2 STRUCTURAL WORK
+Foundation System:
+Deep foundations using bored piles, diameter 1.2m, depth 25-30m
+Total 420 piles with load capacity 8,000 kN each
+Pile caps reinforced concrete grade C40 with minimum 1.5m thickness
+Foundation beams connecting pile caps as per structural drawings
+Waterproofing system complete membrane and protection layers
+Superstructure:
+Structural frame reinforced concrete with post-tensioned slabs
+Concrete grade: C40 for vertical elements, C35 for horizontal elements
+Steel reinforcement: Grade 60 (420 MPa) ribbed bars
+Structural steel for long spans, Grade S355 with fire protection
+Precast elements for facade panels and architectural features
+Core walls and shear walls for lateral stability
+Floor systems post-tensioned flat slabs, 250mm thickness typical
+2.2.3 ARCHITECTURAL WORK
+Exterior Envelope:
+Curtain wall system double-glazed, thermal break aluminum frames
+Natural stone cladding Saudi beige limestone, 30mm thickness
+Composite panels for accent areas, fire-rated aluminum composite
+Roof system modified bitumen membrane with insulation
+Waterproofing complete system for all exposed areas
+Interior Finishes:
+Floor finishes: Imported marble in lobbies, ceramic tiles in residential units
+Wall finishes: Gypsum plaster with paint, ceramic tiles in wet areas
+Ceiling systems: Suspended acoustic ceiling tiles, gypsum board
+Doors and windows: Aluminum frames with double glazing, wooden doors for residential
+Built-in furniture kitchen cabinets, wardrobes, bathroom vanities
+2.2.4 MECHANICAL, ELECTRICAL & PLUMBING (MEP)
+HVAC Systems:
+Central chilled water system with 3 × 1,500 RT chillers
+Air handling units with heat recovery, efficiency ≥85%
+Variable air volume (VAV) systems for office areas
+Split unit systems for residential apartments, minimum SEER 16
+Exhaust systems for parking garage and kitchen areas
+Building Management System (BMS) for centralized control
+Ductwork galvanized steel, insulated with 25mm fiber glass
+Electrical Systems:
+Main electrical supply 11kV from SEC utility connection
+Transformers 3 × 2,500 kVA, oil-filled, outdoor type
+Emergency generators 2 × 2,000 kVA diesel generators with automatic transfer
+Distribution panels IP54 rated, with digital metering
+Lighting systems LED throughout, daylight sensors in common areas
+Fire alarm system addressable type, compliance with NFPA 72
+Security systems CCTV, access control, intrusion detection
+Telecommunications structured cabling, fiber optic backbone
+Plumbing Systems:
+Water supply from municipal connection with booster pumps
+Hot water system central gas-fired boilers, 85% efficiency minimum
+Sanitary drainage PVC pipes with proper venting system
+Storm water drainage separate system with retention tanks
+Fire protection wet sprinkler system throughout, compliance with NFPA 13
+Water features circulation pumps and filtration for plaza fountain
+2.2.5 SPECIAL SYSTEMS
+Elevators: 8 passenger elevators (1,600 kg capacity each), 2 service elevators
+Escalators: 4 units for commercial areas, 800mm width
+Building automation integrated control system
+Renewable energy 500 kW solar PV system on rooftop
+Waste management pneumatic waste collection system
+Landscaping native drought-resistant plants, drip irrigation system
+2.3 TEMPORARY WORKS
+Site accommodation offices, storage, workshops for construction team
+Temporary utilities power, water, telecommunications during construction
+Construction elevators 2 units for material and personnel transport
+Safety systems perimeter fencing, warning systems, emergency procedures
+Environmental protection dust control, noise mitigation measures
+SECTION 3: TECHNICAL SPECIFICATIONS
+3.1 COMPLIANCE REQUIREMENTS
+All work shall comply with the latest versions of:
+Saudi Building Code (SBC) 201, 301, 302, 303, 304, 401, 501, 601, 701, 801, 901
+Saudi Electrical Code (SEC)
+Saudi Plumbing Code
+ASHRAE Standards for HVAC design
+NFPA Codes for fire protection systems
+ASTM, BS, EN Standards as specified in drawings
+Riyadh Municipality Building Regulations
+Saudi Standards Organization (SASO) requirements
+3.2 MATERIAL SPECIFICATIONS
+3.2.1 Concrete and Masonry
+Ready-mix concrete: Minimum compressive strength as specified
+C25 for non-structural elements
+C35 for structural slabs and beams
+C40 for columns and foundations
+C45 for high-rise core walls
+Cement: Type I Portland cement, SASO 2571
+Aggregates: Washed and graded, compliance with ASTM C33
+Admixtures: Super plasticizers, retarders as approved by engineer
+Reinforcement: Ribbed steel bars, Grade 60, ASTM A615
+Masonry blocks: Lightweight concrete blocks, minimum 7 N/mm² strength
+3.2.2 Structural Steel
+Structural steel: Grade S355, EN 10025-2
+Welding: Certified welders, AWS D1.1 procedures
+Bolts: High-strength bolts, Grade 8.8 minimum
+Fire protection: Intumescent coating, 2-hour rating minimum
+Galvanizing: Hot-dip galvanized finish for exposed steel
+3.2.3 Architectural Materials
+Natural stone: Saudi beige limestone, density ≥2,400 kg/m³
+Curtain wall: Thermal break aluminum, powder-coated finish
+Glass: Double-glazed low-E, U-value ≤2.0 W/m²K
+Insulation: Rigid foam boards, minimum R-30 for walls
+Waterproofing: Modified bitumen, torch-applied system
+Ceramic tiles: Porcelain tiles, water absorption ≤0.5%
+3.2.4 MEP Materials
+Piping: PVC for drainage, copper for hot water, PPR for cold water
+Electrical cables: XLPE insulated, fire-retardant, low smoke
+Conduits: Galvanized steel for exposed, PVC for concealed
+HVAC equipment: Minimum AHRI certified, 10-year warranty
+Pumps: Stainless steel impellers, variable frequency drives
+3.3 WORKMANSHIP STANDARDS
+Concrete placement: Vibration compaction, proper curing procedures
+Formwork: Plywood or steel forms, alignment tolerance ±10mm
+Reinforcement: Proper cover, spacing, and lap lengths per SBC 304
+Welding: Certified procedures, 100% visual inspection, random NDT
+Masonry: Level and plumb within 6mm per 3m height
+Finishes: Smooth surfaces, uniform color and texture
+SECTION 4: QUALITY CONTROL AND TESTING
+4.1 QUALITY ASSURANCE PROGRAM
+Quality Management System: ISO 9001:2015 certification required
+Site quality control: Full-time quality control engineer
+Material testing: Accredited laboratories, minimum frequency specified
+Third-party inspection: For structural elements and MEP systems
+Documentation: Complete test certificates and inspection reports
+4.2 TESTING REQUIREMENTS
+4.2.1 Concrete Testing
+Compressive strength: 4 cylinders per 100 m³ or per day
+Slump test: Each truck delivery
+Core testing: If cylinder results below specification
+Non-destructive testing: Ultrasonic pulse velocity, rebound hammer
+4.2.2 Soil and Foundation Testing
+Standard penetration test: Every 30m and 1.5m depth intervals
+Pile load testing: 2% of total piles, maintained load test
+Pile integrity testing: 100% of piles using sonic echo method
+Settlement monitoring: Throughout construction period
+4.2.3 Materials Testing
+Steel reinforcement: Tensile and bend tests, mill certificates
+Structural steel: Mill certificates, welding procedure qualification
+Masonry blocks: Compressive strength, absorption tests
+Waterproofing: Bond strength, puncture resistance tests
+MEP systems: Pressure testing, performance verification
+4.3 INSPECTION SCHEDULE
+Foundation inspection: Before concrete placement
+Structural inspection: At reinforcement stage and before concreting
+MEP rough-in: Before covering/concealing work
+Final inspection: Before system commissioning and handover
+SECTION 5: HEALTH, SAFETY & ENVIRONMENT
+5.1 SAFETY REQUIREMENTS
+Safety Management System: OHSAS 18001 or ISO 45001 certification
+Site safety officer: Full-time certified safety professional
+Safety equipment: Personal protective equipment for all workers
+Safety training: Mandatory safety orientation and regular toolbox talks
+Emergency procedures: Evacuation plans, first aid facilities
+Incident reporting: Zero tolerance for safety violations
+5.2 ENVIRONMENTAL REQUIREMENTS
+Environmental Management: ISO 14001 certification preferred
+Waste management: Segregation, recycling, approved disposal methods
+Dust control: Water spraying, barriers around dusty operations
+Noise control: Restricted hours for noisy operations (7 AM - 6 PM)
+Water management: Treatment of construction runoff
+Air quality: Monitoring during demolition and excavation
+5.3 PERMIT REQUIREMENTS
+Building permit: Municipal approval before commencement
+Excavation permit: For deep excavations and utility connections
+Environmental clearance: Impact assessment and mitigation measures
+Traffic management: Plan for construction vehicle movements
+Crane permits: For tower crane installations
+SECTION 6: PROJECT SCHEDULE AND MILESTONES
+6.1 MAJOR MILESTONES
+Mobilization and site setup: Month 1-2
+Excavation and shoring completion: Month 3-6
+Foundation work completion: Month 7-10
+Structural work to ground level: Month 11-14
+Structural work to roof level (Tower A): Month 15-22
+Structural work to roof level (Tower B): Month 16-24
+Structural work to roof level (Tower C): Month 18-26
+MEP rough-in completion: Month 20-28
+Architectural finishes completion: Month 24-32
+MEP commissioning and testing: Month 30-34
+Final inspections and handover: Month 35-36
+6.2 CRITICAL PATH ACTIVITIES
+Deep excavation and dewatering system
+Pile installation and load testing
+Core wall construction
+MEP vertical risers installation
+Curtain wall installation
+Elevator installation and testing
+6.3 WEATHER CONSIDERATIONS
+Summer months (June-September): Limited working hours during peak heat
+Concrete placement: Early morning hours preferred in summer
+Ramadan period: Adjusted working hours as per labor law
+Sandstorm season: Protection measures for materials and equipment
+SECTION 7: CONTRACT CONDITIONS
+7.1 CONTRACT TYPE
+Lump Sum Contract based on complete drawings and specifications
+Fixed price with adjustment only for approved change orders
+Performance bond required: 10% of contract value
+Advance payment bond if advance payment requested
+Warranty period: 2 years from substantial completion
+7.2 PAYMENT TERMS
+Advance payment: Up to 15% upon bank guarantee
+Progress payments: Monthly based on work completed
+Retention: 10% of each payment, released after warranty period
+Final payment: Within 30 days of final acceptance
+Currency: Saudi Riyal (SAR)
+7.3 LIQUIDATED DAMAGES
+Delay penalties: 0.1% of contract value per day, maximum 10%
+Performance failures: Additional penalties as specified
+Quality defects: Correction at contractor's cost
+7.4 VARIATION ORDERS
+Written approval: Required before executing any changes
+Cost impact: Detailed breakdown and justification required
+Time extension: Evaluated case by case
+Documentation: Complete records of all variations
+SECTION 8: BIDDING REQUIREMENTS
+8.1 PRE-QUALIFICATION CRITERIA
+Technical Capacity:
+Minimum 15 years experience in high-rise construction
+Previously completed minimum 3 projects of similar scope and value
+Current ongoing projects not exceeding 300% of annual capacity
+Qualified technical staff: minimum 50 engineers and supervisors
+Financial Capacity:
+Minimum annual turnover: SAR 200 million (last 3 years average)
+Current ratio: minimum 1.2
+Bank guarantee facility: minimum SAR 100 million
+Audited financial statements for last 3 years
+Legal Standing:
+Valid Saudi commercial registration
+Grade 1 classification with Ministry of Municipal Affairs
+ISO certifications: 9001, 14001, 45001
+No major legal disputes or blacklisting
+8.2 BID SUBMISSION REQUIREMENTS
+Technical Proposal:
+Project understanding and approach
+Construction methodology and sequence
+Quality control and safety plans
+Project organization chart and CVs of key personnel
+Equipment list and deployment schedule
+Detailed project schedule (Primavera P6 format)
+Commercial Proposal:
+Bid form with total contract price
+Price breakdown by major work categories
+List of provisional sums and allowances
+Alternative proposals (if any)
+Bid validity: 90 days from bid opening
+Supporting Documents:
+Pre-qualification documents
+Valid licenses and certifications
+Bank guarantee for bid security (2% of bid value)
+Power of attorney for signing person
+Joint venture agreement (if applicable)
+8.3 BID EVALUATION CRITERIA
+Technical capability: 30%
+Financial proposal: 50%
+Previous experience: 15%
+Local content: 5%
+Award: Lowest evaluated substantially responsive bid
+SECTION 9: DRAWINGS AND SPECIFICATIONS
+9.1 DRAWING LIST
+Architectural Drawings: (50 sheets)
+Site plan and location map
+Ground floor and typical floor plans
+Elevations and sections
+Detail drawings and specifications
+Landscape and external works
+Structural Drawings: (75 sheets)
+Foundation plan and details
+Structural framing plans (all levels)
+Column and beam schedules
+Reinforcement details
+Connection details for steel elements
+MEP Drawings: (120 sheets)
+HVAC plans and sections
+Electrical layouts and single line diagrams
+Plumbing and drainage plans
+Fire protection system layouts
+Telecommunications and security systems
+9.2 SPECIFICATION SECTIONS
+General Requirements
+Site Preparation
+Concrete Work
+Masonry Work
+Structural Steel
+Carpentry and Millwork
+Thermal and Moisture Protection
+Doors and Windows
+Finishes
+Specialties
+Equipment
+Furnishings
+Special Construction
+Conveying Systems
+Mechanical Systems
+Electrical Systems
+SECTION 10: APPENDICES
+Appendix A: Site Survey and Geotechnical Report
+Appendix B: Environmental Impact Assessment
+Appendix C: Traffic Management Plan
+Appendix D: Utility Connection Requirements
+Appendix E: Material Approval Procedures
+Appendix F: Testing and Inspection Protocols
+Appendix G: Health and Safety Procedures
+Appendix H: Quality Control Checklists
+Appendix I: Standard Forms and Certificates
+Appendix J: Local Supplier and Subcontractor Lists
+DOCUMENT CONTROL
+Document Number: RDA-2024-MUD-018-Rev02 Issue Date: March 15, 2024 Revision Date: April 10, 2024 Prepared by: Al-Riyadh Development Authority Approved by: Chief Engineer - Infrastructure Development Total Pages: 127 pages (including drawings and appendices)
+END OF DOCUMENT
+This document contains confidential and proprietary information. Distribution is restricted to authorized bidders and project stakeholders only.

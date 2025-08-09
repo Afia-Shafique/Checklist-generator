@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#016e4f" />
+  
+  <!-- Document Icon -->
+  <path d="M65 50H135C140.523 50 145 54.4772 145 60V140C145 145.523 140.523 150 135 150H65C59.4772 150 55 145.523 55 140V60C55 54.4772 59.4772 50 65 50Z" fill="white" />
+  
+  <!-- Document Lines -->
+  <rect x="70" y="70" width="60" height="5" rx="2.5" fill="#016e4f" />
+  <rect x="70" y="85" width="60" height="5" rx="2.5" fill="#016e4f" />
+  <rect x="70" y="100" width="40" height="5" rx="2.5" fill="#016e4f" />
+  
+  <!-- Magnifying Glass -->
+  <circle cx="125" cy="115" r="20" stroke="#ffa725" stroke-width="8" fill="none" />
+  <line x1="140" y1="130" x2="150" y2="140" stroke="#ffa725" stroke-width="8" stroke-linecap="round" />
+</svg>

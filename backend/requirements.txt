@@ -1,0 +1,13 @@
+flask
+flask-cors
+python-dotenv
+pytesseract
+Pillow
+opencv-python
+pdf2image
+langdetect
+numpy 
+python-docx
+# Commenting out textract due to installation issues
+# textract 
+pandas
