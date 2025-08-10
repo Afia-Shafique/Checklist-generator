@@ -167,7 +167,14 @@ const ChecklistTable = ({ checklistItems, isLoading, error }) => {
             {checklistItems.map((checklist) => (
               <TableRow key={checklist.id} hover>
                 <TableCell>{checklist.id}</TableCell>
-                <TableCell>{checklist.title}</TableCell>
+                <TableCell>
+                  <Typography variant="subtitle2">
+                    {checklist.title_short || checklist.title}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {checklist.reference}
+                  </Typography>
+                </TableCell>
                 <TableCell>{(checklist.items || []).length}</TableCell>
                 <TableCell>
                   <Chip 

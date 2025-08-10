@@ -12,7 +12,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { uploadDocument } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
-const FileUpload = ({ onUploadSuccess, selectedRegion }) => {
+const FileUpload = ({ onUploadSuccess, selectedRegion, selectedChapters }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -52,13 +52,18 @@ const FileUpload = ({ onUploadSuccess, selectedRegion }) => {
     // Pass the selected region to the backend
     formData.append('region', selectedRegion || 'saudi');
 
+    if (selectedRegion === 'dubai') {
+      formData.append('selected_chapters', JSON.stringify(selectedChapters));
+    }
+    // If you want to support Saudi uploads with codebook_ids from this component, add a prop for selectedCodebooks and use it here.
+
     setLoading(true);
     setError('');
 
     try {
       // Call the API endpoint with the file and region
       const result = await uploadDocument(formData, selectedRegion || 'saudi');
-      
+
       if (onUploadSuccess) {
         onUploadSuccess(result, file);
       } else {
@@ -67,9 +72,7 @@ const FileUpload = ({ onUploadSuccess, selectedRegion }) => {
       }
     } catch (err) {
       console.error('Upload error:', err);
-      setError(
-        err.message || 'Failed to upload document. Please try again.'
-      );
+      setError(err.message || 'Failed to upload document. Please try again.');
     } finally {
       setLoading(false);
     }

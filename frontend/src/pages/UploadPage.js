@@ -45,17 +45,14 @@ const UploadPage = () => {
         // Build FormData for backend
         const formData = new FormData();
         formData.append('region', selectedRegion);
-        // Add codebook/chapter IDs
-        const ids = selectedRegion === 'dubai' ? selectedChapters : selectedCodebooks;
-        ids.forEach(id => {
-          if (selectedRegion === 'dubai') {
-            formData.append('codebook_ids[]', `DUBAI-${id}`);
-          } else {
-            // If id already starts with 'SBC-', don't add again
+        if (selectedRegion === 'dubai') {
+          formData.append('selected_chapters', JSON.stringify(selectedChapters));
+        } else {
+          selectedCodebooks.forEach(id => {
             const codebookId = id.startsWith('SBC-') ? id : `SBC-${id}`;
             formData.append('codebook_ids[]', codebookId);
-          }
-        });
+          });
+        }
         // Add the uploaded file (must be the original File object)
         if (uploadData && uploadData.file) {
           formData.append('file', uploadData.file);
@@ -75,7 +72,7 @@ const UploadPage = () => {
             matchedClauses: results.matched_clauses || [],
             checklist: results.checklist || [],
             selectedRegion,
-            referenceIds: ids
+            referenceIds: selectedRegion === 'dubai' ? selectedChapters : selectedCodebooks
           }
         });
       } catch (err) {
@@ -99,6 +96,7 @@ const UploadPage = () => {
           <ChapterSelector
             selectedChapters={selectedChapters}
             setSelectedChapters={setSelectedChapters}
+            selectedRegion={selectedRegion}
           />
         ) : (
           <CodebookSelector
@@ -114,7 +112,7 @@ const UploadPage = () => {
               Processing Document
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-              Matching your specifications with SBC codebooks...
+              Matching your specifications with Legal requirements.
             </Typography>
           </Box>
         );

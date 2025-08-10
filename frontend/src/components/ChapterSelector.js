@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -10,113 +10,86 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Grid,
+  Switch
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const DUBAI_CHAPTERS = [
-  { id: 'chapter1', name: 'Chapter 1: General', category: 'General' },
-  { id: 'chapter2', name: 'Chapter 2: Definitions', category: 'General' },
-  { id: 'chapter3', name: 'Chapter 3: Use and Occupancy Classification', category: 'Classification' },
-  { id: 'chapter4', name: 'Chapter 4: Special Detailed Requirements Based on Use and Occupancy', category: 'Classification' },
-  { id: 'chapter5', name: 'Chapter 5: General Building Heights and Areas', category: 'Building Requirements' },
-  { id: 'chapter6', name: 'Chapter 6: Types of Construction', category: 'Building Requirements' },
-  { id: 'chapter7', name: 'Chapter 7: Fire and Smoke Protection Features', category: 'Fire Safety' },
-  { id: 'chapter8', name: 'Chapter 8: Interior Finishes', category: 'Building Requirements' },
-  { id: 'chapter9', name: 'Chapter 9: Fire Protection and Life Safety Systems', category: 'Fire Safety' },
-  { id: 'chapter10', name: 'Chapter 10: Means of Egress', category: 'Fire Safety' },
-  { id: 'chapter11', name: 'Chapter 11: Accessibility', category: 'Accessibility' },
-  { id: 'chapter12', name: 'Chapter 12: Interior Environment', category: 'Environment' },
-  { id: 'chapter13', name: 'Chapter 13: Energy Efficiency', category: 'Environment' },
-  { id: 'chapter14', name: 'Chapter 14: Exterior Walls', category: 'Building Requirements' },
-  { id: 'chapter15', name: 'Chapter 15: Roof Assemblies and Rooftop Structures', category: 'Building Requirements' },
-  { id: 'chapter16', name: 'Chapter 16: Structural Design', category: 'Structural' },
-  { id: 'chapter17', name: 'Chapter 17: Special Inspections and Tests', category: 'Structural' },
-  { id: 'chapter18', name: 'Chapter 18: Soils and Foundations', category: 'Structural' },
-  { id: 'chapter19', name: 'Chapter 19: Concrete', category: 'Materials' },
-  { id: 'chapter20', name: 'Chapter 20: Aluminum', category: 'Materials' },
-  { id: 'chapter21', name: 'Chapter 21: Masonry', category: 'Materials' },
-  { id: 'chapter22', name: 'Chapter 22: Steel', category: 'Materials' },
-  { id: 'chapter23', name: 'Chapter 23: Wood', category: 'Materials' },
-  { id: 'chapter24', name: 'Chapter 24: Glass and Glazing', category: 'Materials' },
-  { id: 'chapter25', name: 'Chapter 25: Gypsum Board, Gypsum Panel Products and Plaster', category: 'Materials' },
-  { id: 'chapter26', name: 'Chapter 26: Plastic', category: 'Materials' },
-  { id: 'chapter27', name: 'Chapter 27: Electrical', category: 'MEP Systems' },
-  { id: 'chapter28', name: 'Chapter 28: Mechanical Systems', category: 'MEP Systems' },
-  { id: 'chapter29', name: 'Chapter 29: Plumbing Systems', category: 'MEP Systems' },
-  { id: 'chapter30', name: 'Chapter 30: Elevators and Conveying Systems', category: 'MEP Systems' },
-  { id: 'chapter31', name: 'Chapter 31: Special Construction', category: 'Special' },
-  { id: 'chapter32', name: 'Chapter 32: Encroachments into the Public Right-of-Way', category: 'Special' },
-  { id: 'chapter33', name: 'Chapter 33: Safeguards During Construction', category: 'Special' },
-  { id: 'chapter34', name: 'Chapter 34: Existing Structures', category: 'Special' },
-  { id: 'chapter35', name: 'Chapter 35: Referenced Standards', category: 'References' },
-];
+const ChapterSelector = ({ selectedChapters, setSelectedChapters, selectedRegion }) => {
+  const [categories, setCategories] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [showAdvanced, setShowAdvanced] = useState(false); // ✅ Advanced toggle
 
-const ChapterSelector = ({ selectedChapters, setSelectedChapters }) => {
-  // Group chapters by category
-  const chaptersByCategory = DUBAI_CHAPTERS.reduce((acc, chapter) => {
-    if (!acc[chapter.category]) {
-      acc[chapter.category] = [];
+  useEffect(() => {
+    if (selectedRegion === "dubai") {
+      fetch("/api/dubai/categories")
+        .then(res => res.json())
+        .then(data => {
+          setCategories(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Error loading Dubai categories:", err);
+          setLoading(false);
+        });
     }
-    acc[chapter.category].push(chapter);
-    return acc;
-  }, {});
+  }, [selectedRegion]);
 
-  // Toggle all chapters
+  // ✅ Filter categories if not advanced
+  const visibleCategories = Object.keys(categories).filter(cat => {
+    if (!showAdvanced && (cat === "General" || cat === "Security")) return false;
+    return true;
+  });
+
+  // ✅ Get ALL visible checkbox IDs
+  const allChapterIds = visibleCategories
+    .flatMap(mainCat =>
+      Array.isArray(categories[mainCat])
+        ? categories[mainCat].flatMap(sub => sub.sections.map(sec => sec.section_id))
+        : []
+    );
+
   const handleToggleAll = () => {
-    if (selectedChapters.length === DUBAI_CHAPTERS.length) {
+    if (selectedChapters.length === allChapterIds.length) {
       setSelectedChapters([]);
     } else {
-      setSelectedChapters(DUBAI_CHAPTERS.map(chapter => chapter.id));
+      setSelectedChapters(allChapterIds);
     }
   };
 
-  // Toggle all chapters in a category
-  const handleToggleCategory = (category) => {
-    const categoryChapterIds = chaptersByCategory[category].map(chapter => chapter.id);
-    const allSelected = categoryChapterIds.every(id => selectedChapters.includes(id));
-    
+  const handleToggleCategory = (mainCat) => {
+    const categoryIds = (categories[mainCat] || [])
+      .flatMap(sub => sub.sections.map(sec => sec.section_id));
+
+    const allSelected = categoryIds.every(id => selectedChapters.includes(id));
     if (allSelected) {
-      setSelectedChapters(selectedChapters.filter(id => !categoryChapterIds.includes(id)));
+      setSelectedChapters(selectedChapters.filter(id => !categoryIds.includes(id)));
     } else {
-      const newSelected = [...selectedChapters];
-      categoryChapterIds.forEach(id => {
-        if (!newSelected.includes(id)) {
-          newSelected.push(id);
-        }
-      });
-      setSelectedChapters(newSelected);
+      setSelectedChapters([
+        ...selectedChapters,
+        ...categoryIds.filter(id => !selectedChapters.includes(id))
+      ]);
     }
   };
 
-  // Toggle a single chapter
+  const isCategorySelected = (mainCat) => {
+    const ids = (categories[mainCat] || [])
+      .flatMap(sub => sub.sections.map(sec => sec.section_id));
+    return ids.length > 0 && ids.every(id => selectedChapters.includes(id));
+  };
+
+  const isCategoryIndeterminate = (mainCat) => {
+    const ids = (categories[mainCat] || [])
+      .flatMap(sub => sub.sections.map(sec => sec.section_id));
+    const selectedCount = ids.filter(id => selectedChapters.includes(id)).length;
+    return selectedCount > 0 && selectedCount < ids.length;
+  };
+
   const handleToggleChapter = (chapterId) => {
-    const currentIndex = selectedChapters.indexOf(chapterId);
-    const newSelected = [...selectedChapters];
-
-    if (currentIndex === -1) {
-      newSelected.push(chapterId);
+    if (selectedChapters.includes(chapterId)) {
+      setSelectedChapters(selectedChapters.filter(id => id !== chapterId));
     } else {
-      newSelected.splice(currentIndex, 1);
+      setSelectedChapters([...selectedChapters, chapterId]);
     }
-
-    setSelectedChapters(newSelected);
-  };
-
-  // Check if all chapters in a category are selected
-  const isCategorySelected = (category) => {
-    return chaptersByCategory[category].every(chapter => 
-      selectedChapters.includes(chapter.id)
-    );
-  };
-
-  // Check if some chapters in a category are selected
-  const isCategoryIndeterminate = (category) => {
-    const categoryChapters = chaptersByCategory[category];
-    const selectedCount = categoryChapters.filter(chapter => 
-      selectedChapters.includes(chapter.id)
-    ).length;
-    return selectedCount > 0 && selectedCount < categoryChapters.length;
   };
 
   return (
@@ -125,66 +98,91 @@ const ChapterSelector = ({ selectedChapters, setSelectedChapters }) => {
         Select Dubai Building Code Chapters
       </Typography>
       <Typography variant="body2" color="text.secondary" paragraph>
-        Choose which chapters of the Dubai Building Code to use for matching.
+        Choose which curated chapters of the Dubai Building Code to use for matching.
       </Typography>
 
+      {/* ✅ Advanced toggle */}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showAdvanced}
+              onChange={(e) => setShowAdvanced(e.target.checked)}
+              color="primary"
+            />
+          }
+          label="Advanced Mode"
+        />
+      </Box>
+
+      {/* ✅ Select All */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <FormControlLabel
           control={
             <Checkbox
-              checked={selectedChapters.length === DUBAI_CHAPTERS.length}
-              indeterminate={selectedChapters.length > 0 && selectedChapters.length < DUBAI_CHAPTERS.length}
+              checked={selectedChapters.length === allChapterIds.length}
+              indeterminate={selectedChapters.length > 0 && selectedChapters.length < allChapterIds.length}
               onChange={handleToggleAll}
             />
           }
           label="Select All Chapters"
         />
         <Typography variant="body2" color="text.secondary">
-          {selectedChapters.length} of {DUBAI_CHAPTERS.length} selected
+          {selectedChapters.length} of {allChapterIds.length} selected
         </Typography>
       </Box>
 
       <Divider sx={{ mb: 2 }} />
 
-      {Object.keys(chaptersByCategory).map((category) => (
-        <Accordion key={category} defaultExpanded={false}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <FormControlLabel
-              onClick={(event) => {
-                event.stopPropagation();
-                handleToggleCategory(category);
-              }}
-              onFocus={(event) => event.stopPropagation()}
-              control={
-                <Checkbox
-                  checked={isCategorySelected(category)}
-                  indeterminate={isCategoryIndeterminate(category)}
-                />
-              }
-              label={<Typography fontWeight="medium">{category}</Typography>}
-            />
-          </AccordionSummary>
-          <AccordionDetails>
-            <FormGroup>
-              <Grid container spacing={1}>
-                {chaptersByCategory[category].map((chapter) => (
-                  <Grid item xs={12} sm={6} key={chapter.id}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={selectedChapters.includes(chapter.id)}
-                          onChange={() => handleToggleChapter(chapter.id)}
-                        />
-                      }
-                      label={chapter.name}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </FormGroup>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+      {loading ? (
+        <Typography>Loading Dubai categories...</Typography>
+      ) : (
+        visibleCategories.map((mainCat) => (
+          <Accordion key={mainCat} defaultExpanded={false}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <FormControlLabel
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleToggleCategory(mainCat);
+                }}
+                onFocus={(event) => event.stopPropagation()}
+                control={
+                  <Checkbox
+                    checked={isCategorySelected(mainCat)}
+                    indeterminate={isCategoryIndeterminate(mainCat)}
+                  />
+                }
+                label={<Typography fontWeight="medium">{mainCat}</Typography>}
+              />
+            </AccordionSummary>
+            <AccordionDetails>
+              {Array.isArray(categories[mainCat])
+                ? categories[mainCat].map((sub) => (
+                    <Box key={sub.subcategory} sx={{ mb: 2, pl: 2 }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        {sub.subcategory}
+                      </Typography>
+                      <FormGroup>
+                        {sub.sections.map((sec) => (
+                          <FormControlLabel
+                            key={sec.section_id}
+                            control={
+                              <Checkbox
+                                checked={selectedChapters.includes(sec.section_id)}
+                                onChange={() => handleToggleChapter(sec.section_id)}
+                              />
+                            }
+                            label={sec.section_title}
+                          />
+                        ))}
+                      </FormGroup>
+                    </Box>
+                  ))
+                : null}
+            </AccordionDetails>
+          </Accordion>
+        ))
+      )}
     </Paper>
   );
 };

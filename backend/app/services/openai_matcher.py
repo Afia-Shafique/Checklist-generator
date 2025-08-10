@@ -1,73 +1,30 @@
-# Strict, detailed prompt builder for checklist generation
-def build_checklist_prompt(matched_data, region):
-        """
-        Detailed, strict prompt for generating accurate construction checklists.
-        """
-        import json
-        return f"""
-You are an expert construction compliance officer working in the {region.upper()} region.
-You have deep expertise in the Saudi Building Code (SBC) and other applicable {region.upper()} construction regulations.
 
-You are given:
-- Matched data: specification sections from the user's document that have already been matched to clauses in the selected SBC codebooks.
-- Each match contains: `user_section`, `matched_clause`, and `codebook`.
-
-Your task:
-1. **Only generate checklist items for clauses that have a specific, measurable, and verifiable requirement.**
-     - Skip any matches that are purely general statements (e.g., "comply with local laws" or "follow SBC").
-     - Skip clauses that do not contain a requirement that can be checked on-site or in documentation.
-2. **Checklist Item Rules:**
-     - Each checklist item must be actionable and written so an inspector can verify it.
-     - Avoid vague statements; be concrete.
-     - Where applicable, break a long requirement into multiple checklist items.
-     - Do NOT invent requirements — use only what exists in the `matched_clause` and relevant details from `user_section`.
-     - If a requirement contains numeric limits (dimensions, loads, pressures, etc.), preserve those values exactly.
-3. **Output Format (JSON)**:
-     - An array of objects, one per matched clause, with the following fields:
-         - `section_id`: The section number or identifier from the `user_section` (if missing, set as "N/A").
-         - `checklist`: An array of checklist items, each with:
-             - `item`: sequential number as a string ("1", "2", "3", ...)
-             - `requirement`: clear and complete requirement statement
-             - `status`: leave empty string ("") for now
-             - `comments`: leave empty string ("") for now
-
-Example Output:
-[
-    {{
-        "section_id": "2.3.1",
-        "checklist": [
-            {{
-                "item": "1",
-                "requirement": "Verify that all potable water piping is constructed from approved materials per SBC-701, Section 4.2.",
-                "status": "",
-                "comments": ""
-            }},
-            {{
-                "item": "2",
-                "requirement": "Confirm installation of backflow prevention devices at all potable water supply inlets.",
-                "status": "",
-                "comments": ""
-            }}
-        ]
-    }}
-]
-
-Matched Data to process:
-{json.dumps(matched_data, ensure_ascii=False)}
-"""
 import os
-import openai
 import re
 import json
 from PyPDF2 import PdfReader
-from flask import current_app
-
+import openai
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
-# Helper to extract text from a PDF file
+# ---------- UTILITIES ----------
+def extract_json_array(text):
+    """Robust JSON array extraction from GPT output."""
+    text = text.strip()
+    json_match = re.search(r'\[\s*\{.*\}\s*\]', text, re.DOTALL)
+    if json_match:
+        return json.loads(json_match.group(0))
+
+    array_start = text.find('[')
+    array_end = text.rfind(']')
+    if array_start != -1 and array_end != -1 and array_end > array_start:
+        return json.loads(text[array_start:array_end+1])
+
+    raise ValueError("Unable to extract JSON array from response")
+
 def extract_pdf_text(pdf_path):
+    """Extracts all text from a PDF file."""
     text = []
     try:
         reader = PdfReader(pdf_path)
@@ -77,145 +34,195 @@ def extract_pdf_text(pdf_path):
         print(f"Error reading {pdf_path}: {e}")
     return "\n".join(text)
 
-# Main OpenAI matching/checklist logic
-# sections: list of dicts (from user spec)
-# codebook_ids: list of codebook IDs (e.g. ['SBC-501'])
-# region: string
-# Returns: list of matches with checklists
+# ---------- DUBAI HELPER ----------
+def load_dubai_code_sections(selected_chapters):
+    """Loads Dubai Building Code sections and filters to selected chapters."""
+    base_path = os.path.join(os.getcwd(), 'shared', 'Dubai Book')
+    sections_file = os.path.join(base_path, 'dubai_building_code_sections.json')
 
+    if not os.path.exists(sections_file):
+        raise FileNotFoundError(f"Dubai building code sections file not found at {sections_file}")
 
-# Step 1: Get matching clauses from OpenAI
-def get_matching_clauses_openai(sections, codebook_ids, region):
-    codebook_texts = {}
-    codebook_dir = os.path.join(os.getcwd(), 'shared', 'codebooks')
-    print('DEBUG: codebook_ids received:', codebook_ids)
-    for codebook_id in codebook_ids:
-        found = False
-        for fname in os.listdir(codebook_dir):
-            if fname.startswith(codebook_id) and fname.endswith('.pdf'):
-                codebook_path = os.path.join(codebook_dir, fname)
-                print(f'DEBUG: Loading codebook for {codebook_id} from {codebook_path}')
-                codebook_text = extract_pdf_text(codebook_path)
-                print(f'DEBUG: First 500 chars of codebook {codebook_id}:', codebook_text[:500])
-                codebook_texts[codebook_id] = codebook_text
-                found = True
-                break
-        if not found:
-            print(f'WARNING: No codebook PDF found for codebook_id {codebook_id} in {codebook_dir}')
+    with open(sections_file, 'r', encoding='utf-8') as f:
+        all_sections = json.load(f)
 
-    results = []
-    processable_sections = sections[:10] if len(sections) > 10 else sections
-    for codebook_id, codebook_text in codebook_texts.items():
-        region_name = region.capitalize()
-        codebook_label = codebook_id
-        codebook_prompt = ''
-        if region.lower() == 'dubai':
-            codebook_prompt = f"Dubai Building Code chapter {codebook_id}"
-        elif region.lower() == 'saudi':
-            codebook_prompt = f"Saudi Building Code (SBC) {codebook_id}"
-            codebook_label = codebook_id.replace('SBC-', '')
-        else:
-            codebook_prompt = f"{region_name} Building Code {codebook_id}"
+    return [sec for sec in all_sections if sec["section_id"] in selected_chapters]
 
-        prompt = f'''
-        I have sections from a construction document specification and need to match them with relevant clauses from the {codebook_prompt}.
+# ---------- PROMPTS ----------
+def build_match_prompt(user_sections, codebook_text, region, codebook_label):
+    """
+    Builds the strict GPT prompt for matching clauses to user specs.
+    """
+    return f"""
+You are a senior building code compliance officer specializing in {region.capitalize()} Building Code.
 
-        CATEGORY CONTEXT: Only consider clauses from SBC {codebook_id} that relate directly to the selected category: {codebook_label}.
-        Ignore general clauses that simply state compliance or scope unless they contain measurable requirements.
-        Do not include clauses that only describe overall project scope or general legal compliance.
+TASK:
+Match each user project specification section with the most relevant clause(s) from the provided {region.capitalize()} Building Code text.
 
-        Here are the document sections (JSON):
-        {json.dumps(processable_sections, indent=2)}
+ONLY consider a "match" if:
+- The clause contains enforceable, measurable, site-verifiable requirements.
+- It is directly relevant to the specification.
 
-        Here is the full text of the selected codebook:
-        {codebook_text[:12000]}
+IGNORE:
+- Clauses that are administrative only.
+- Requirements without measurable criteria.
 
-        For each section, find the most relevant clause in the {codebook_prompt} that is specific to the selected category ({codebook_label}) and contains explicit, measurable requirements.
-        Return the results in this exact JSON format:
-        [
-          {{
-            "user_section": {{
-              "section_id": "section ID from input",
-              "title": "section title from input",
-              "content": "section content from input"
-            }},
-            "matched_clause": {{
-              "section_id": "matching clause ID",
-              "title": "matching clause title",
-              "content": "matching clause content",
-              "codebook": "{codebook_label}"
-            }},
-            "similarity_score": 0.XX
-          }}
+For each match:
+1. Provide the matched clause details (section_id, title, content, codebook="{codebook_label}").
+2. Assign a similarity_score between 0 and 1.
+3. Do NOT include matches with similarity_score < 0.70.
+
+OUTPUT FORMAT:
+[
+  {{
+    "user_section": {{
+      "section_id": "...",
+      "title": "...",
+      "content": "..."
+    }},
+    "matched_clause": {{
+      "section_id": "...",
+      "title": "...",
+      "content": "...",
+      "codebook": "{codebook_label}"
+    }},
+    "similarity_score": 0.0
+  }}
+]
+
+USER PROJECT SPEC SECTIONS:
+{json.dumps(user_sections, ensure_ascii=False, indent=2)}
+
+RELEVANT {region.upper()} BUILDING CODE TEXT:
+{codebook_text[:12000]}
+"""
+
+def build_checklist_prompt(matched_data, region):
+        """
+        Builds the GPT prompt for checklist generation with enriched details.
+        """
+
+        return f"""
+You are an expert construction compliance officer working in the {region.upper()} region.
+
+You are given matched clauses between the user's project specifications and the building code.
+For EACH matched section, generate a compliance checklist.
+
+IMPORTANT:
+1. Use the EXACT title from "user_section.title" as the "title" field.
+2. Keep the title short (max 12 words).
+3. Each checklist item MUST be:
+     - Specific, measurable, and verifiable on site.
+     - No vague statements or administrative notes.
+4. Each checklist item must have:
+     - "item": sequential number starting from 1
+     - "requirement": explicit measurable requirement
+     - "status": one of ["Compliant", "Non-Compliant", "Not Specified"]
+             * Compliant = spec clearly meets the code requirement
+             * Non-Compliant = spec clearly fails code requirement
+             * Not Specified = not enough info to decide
+     - "comments": optional notes for clarification
+
+5. For the section-level "status" (shown in main results table):
+     - If ALL checklist items are "Compliant", status = "Compliant"
+     - If ANY checklist item is "Non-Compliant", status = "Non-Compliant"
+     - Otherwise, "Not Specified"
+
+OUTPUT JSON FORMAT (no text before or after):
+[
+    {{
+        "section_id": "...",
+        "title": "Short title from user spec",
+        "status": "Compliant / Non-Compliant / Not Specified",
+        "checklist": [
+            {{
+                "item": "1",
+                "requirement": "...",
+                "status": "Compliant / Non-Compliant / Not Specified",
+                "comments": "..."
+            }}
         ]
+    }}
+]
 
-        Only include sections that have relevant matches with a similarity score of at least 0.7.
+Matched Data:
+{json.dumps(matched_data, ensure_ascii=False)}
+"""
 
-        IMPORTANT: Your response MUST be valid JSON only. Do not include any explanatory text before or after the JSON array.
-        Do not include markdown formatting, code blocks, or any other text. Return only the JSON array.
-        '''
+# ---------- MAIN MATCHER ----------
+def get_matching_clauses_openai_unified(user_sections, region, codebook_text, codebook_label):
+    """
+    Single matcher for both Saudi and Dubai.
+    """
+    processable_sections = user_sections[:10] if len(user_sections) > 10 else user_sections
+    prompt = build_match_prompt(processable_sections, codebook_text, region, codebook_label)
 
-        response = client.chat.completions.create(
-            model='gpt-4-turbo',
-            messages=[
-                {"role": "system", "content": f"You are an expert in construction specifications and building codes. Your task is to match sections from a user specification document with relevant clauses from the {codebook_prompt}."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3,
-        )
-        content = response.choices[0].message.content
-        # Try to extract JSON array
-        json_match = re.search(r'\[\s*\{.*\}\s*\]', content, re.DOTALL)
-        if json_match:
-            codebook_results = json.loads(json_match.group(0))
-        else:
-            cleaned_content = content.strip()
-            array_start = cleaned_content.find('[')
-            array_end = cleaned_content.rfind(']')
-            if array_start != -1 and array_end != -1 and array_end > array_start:
-                cleaned_content = cleaned_content[array_start:array_end+1]
-            codebook_results = json.loads(cleaned_content)
-        if isinstance(codebook_results, list):
-            results.extend(codebook_results)
-    # Sort by similarity score
-    results.sort(key=lambda x: x.get('similarity_score', 0), reverse=True)
-    return results
+    response = client.chat.completions.create(
+        model='gpt-4-turbo',
+        messages=[
+            {"role": "system", "content": "You are an expert in construction specifications and building codes. Output valid JSON only."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.0
+    )
 
-# Step 2: Generate checklist from matched clauses using OpenAI
+    matches = extract_json_array(response.choices[0].message.content)
+
+    # Filter similarity in code too
+    matches = [m for m in matches if m.get("similarity_score", 0) >= 0.7]
+    return matches
+
+# ---------- CHECKLIST ----------
 def generate_checklist_openai(matched_clauses, region):
-    # For brevity, only send the top 10 matches to OpenAI for checklist generation
+    # Take top matches for prompt
     top_matches = matched_clauses[:10] if len(matched_clauses) > 10 else matched_clauses
     prompt = build_checklist_prompt(top_matches, region)
+
     response = client.chat.completions.create(
         model='gpt-4-turbo',
         messages=[
             {"role": "system", "content": "You are a construction compliance expert."},
             {"role": "user", "content": prompt}
         ],
-        temperature=0.3,
+        temperature=0.0
     )
-    content = response.choices[0].message.content
-    print('DEBUG: Raw OpenAI checklist response:', content[:1000])
-    # Try to extract JSON array
-    json_match = re.search(r'\[\s*\{.*\}\s*\]', content, re.DOTALL)
-    if json_match:
-        checklist_raw = json.loads(json_match.group(0))
-    else:
-        cleaned_content = content.strip()
-        array_start = cleaned_content.find('[')
-        array_end = cleaned_content.rfind(']')
-        if array_start != -1 and array_end != -1 and array_end > array_start:
-            cleaned_content = cleaned_content[array_start:array_end+1]
-        checklist_raw = json.loads(cleaned_content)
 
-    # Map to frontend format: id, title, items
-    checklist = []
+    checklist_raw = extract_json_array(response.choices[0].message.content)
+    enriched_checklist = []
+
     for entry in checklist_raw:
-        section_id = entry.get('section_id', 'N/A')
-        items = entry.get('checklist', [])
-        checklist.append({
-            'id': section_id,
-            'title': f'Section {section_id}',
-            'items': items
+        sec_id = entry.get('section_id', 'N/A')
+
+        # Find matching clause for title & extra info
+        match = next(
+            (m for m in matched_clauses
+             if m.get('user_section', {}).get('section_id') == sec_id),
+            None
+        )
+
+        title = None
+        if match:
+            title = match['user_section'].get('title') or match['user_section'].get('content', '')[:60]
+
+        # Default status for main table
+        main_status = "Not Specified"
+
+        # Add item numbers & default statuses for each checklist item
+        checklist_items = entry.get('checklist', [])
+        numbered_items = []
+        for idx, item in enumerate(checklist_items, start=1):
+            numbered_items.append({
+                "id": str(idx),
+                "requirement": item.get("requirement", ""),
+                "status": item.get("status", "") or "Not Specified",
+                "comments": item.get("comments", "")
+            })
+
+        enriched_checklist.append({
+            "id": sec_id,
+            "title": title or f"Section {sec_id}",
+            "items": numbered_items,
+            "status": main_status  # Status in main result table
         })
-    return checklist
+
+    return enriched_checklist
