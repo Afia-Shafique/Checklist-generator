@@ -1,12 +1,26 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, onLogout }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+
+  const handleLogout = () => {
+    if (onLogout) onLogout();
+    else {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userInfo');
+      navigate('/login');
+    }
+  };
+
   return (
     <div className={`sidebar ${!isOpen ? 'sidebar-closed' : ''}`}>
       <div className="sidebar-header">
-        <h2>QA/QC Compliance</h2>
+        <img src="/LogoBrain.svg" alt="Logo" className="sidebar-logo" />
       </div>
+
       <nav className="sidebar-nav">
         <ul className="nav-menu">
           <li className="nav-item">
@@ -61,6 +75,26 @@ const Sidebar = ({ isOpen }) => {
           </li>
         </ul>
       </nav>
+
+      {token && (
+        <div className="sidebar-footer">
+          <div className="profile">
+            <div className="avatar" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
+                <path d="M4 20c0-3.314 3.582-6 8-6s8 2.686 8 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </div>
+            <div className="details">
+              <div className="name">{userInfo.full_name || 'User'}</div>
+              <div className="email">{userInfo.email || ''}</div>
+            </div>
+          </div>
+          <button className="logout" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 };

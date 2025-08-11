@@ -27,11 +27,11 @@ const Navbar = () => {
         <img src="/LogoBrain.svg" alt="Logo" style={styles.logoImg} />
       </div>
       <div style={styles.actions}>
-        <button onClick={toggleLanguage} style={styles.button}>
+        <button onClick={toggleLanguage} style={{ ...styles.button, ...styles.orangeButton, minWidth: 120 }}>
           {i18n.language === 'en' ? 'العربية' : 'English'}
         </button>
         {!isLoginPage && (
-          <button onClick={handleLoginClick} style={styles.button}>
+          <button onClick={handleLoginClick} style={{ ...styles.button, ...styles.orangeButton, minWidth: 200 }}>
             {t('login_button')}
           </button>
         )}
@@ -46,7 +46,7 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '1rem 2rem',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'transparent',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
     position: 'sticky',
     top: 0,
@@ -61,7 +61,7 @@ const styles = {
     color: '#333',
   },
   logoImg: {
-    height: '40px',
+    height: '68px',
     marginRight: '0.5rem',
   },
   actions: {
@@ -71,13 +71,18 @@ const styles = {
   },
   button: {
     padding: '0.5rem 1rem',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    backgroundColor: '#ffffff',
-    color: '#333',
+    border: 'none',
+    borderRadius: '20px',
+    backgroundColor: '#ffa725',
+    color: '#fff',
     cursor: 'pointer',
     fontSize: '0.9rem',
     transition: 'all 0.2s ease',
+  },
+  orangeButton: {
+    backgroundColor: '#ffa725',
+    color: '#fff',
+    boxShadow: '0 6px 14px rgba(255, 167, 37, 0.35)',
   },
 };
 

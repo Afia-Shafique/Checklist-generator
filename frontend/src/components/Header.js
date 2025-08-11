@@ -1,22 +1,21 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Container } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import DescriptionIcon from '@mui/icons-material/Description';
+// Removed document icon to simplify the brand per request
 
 const Header = () => {
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" color="transparent" elevation={0} sx={{ backgroundColor: 'transparent' }}>
       <Container maxWidth="lg">
         <Toolbar>
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <DescriptionIcon sx={{ mr: 1 }} />
             <Typography
               variant="h6"
               component={RouterLink}
               to="/"
               sx={{
                 textDecoration: 'none',
-                color: 'inherit',
+                color: 'text.primary',
                 fontWeight: 700,
                 letterSpacing: '0.5px',
               }}
@@ -26,18 +25,20 @@ const Header = () => {
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Button
-              color="inherit"
+              variant="contained"
+              color="secondary"
               component={RouterLink}
               to="/"
-              sx={{ mx: 1 }}
+              sx={{ mx: 1, borderRadius: '20px', boxShadow: 3 }}
             >
               Home
             </Button>
             <Button
-              color="inherit"
+              variant="contained"
+              color="secondary"
               component={RouterLink}
               to="/upload"
-              sx={{ mx: 1 }}
+              sx={{ mx: 1, borderRadius: '20px', boxShadow: 3 }}
             >
               Upload Document
             </Button>
