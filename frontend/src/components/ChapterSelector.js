@@ -175,7 +175,7 @@ const ChapterSelector = ({
                         />
                       }
                       label={
-                        <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 'medium' }}>
                           {sub.subcategory_name}
                         </Typography>
                       }
