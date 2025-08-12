@@ -63,3 +63,112 @@ code {
 .similarity-low {
   color: #d32f2f;
 }
+
+/* RTL Support - Clean and focused */
+[dir="rtl"], .rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Force RTL on body when rtl class is present */
+body.rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* RTL for Material-UI components */
+[dir="rtl"] .MuiContainer-root, .rtl .MuiContainer-root,
+[dir="rtl"] .MuiTypography-root, .rtl .MuiTypography-root,
+[dir="rtl"] .MuiPaper-root, .rtl .MuiPaper-root,
+[dir="rtl"] .MuiCard-root, .rtl .MuiCard-root,
+[dir="rtl"] .MuiCardContent-root, .rtl .MuiCardContent-root {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* RTL for form components */
+[dir="rtl"] .MuiFormControl-root, .rtl .MuiFormControl-root,
+[dir="rtl"] .MuiFormLabel-root, .rtl .MuiFormLabel-root,
+[dir="rtl"] .MuiRadioGroup-root, .rtl .MuiRadioGroup-root {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* RTL for form control labels - reverse radio button layout */
+[dir="rtl"] .MuiFormControlLabel-root, .rtl .MuiFormControlLabel-root {
+  direction: rtl !important;
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .MuiFormControlLabel-label, .rtl .MuiFormControlLabel-label {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* RTL for grid containers */
+[dir="rtl"] .MuiGrid-container, .rtl .MuiGrid-container {
+  direction: rtl !important;
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .MuiGrid-item, .rtl .MuiGrid-item {
+  direction: rtl !important;
+}
+
+/* RTL for stepper */
+[dir="rtl"] .MuiStepper-root, .rtl .MuiStepper-root {
+  direction: rtl !important;
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .MuiStep-root, .rtl .MuiStep-root,
+[dir="rtl"] .MuiStepLabel-root, .rtl .MuiStepLabel-root,
+[dir="rtl"] .MuiStepLabel-label, .rtl .MuiStepLabel-label {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* RTL for buttons */
+[dir="rtl"] .MuiButton-root, .rtl .MuiButton-root {
+  direction: rtl !important;
+}
+
+/* RTL for boxes and containers */
+[dir="rtl"] .MuiBox-root, .rtl .MuiBox-root {
+  direction: rtl !important;
+}
+
+/* RTL for flexbox containers */
+[dir="rtl"] .flex-row, .rtl .flex-row {
+  flex-direction: row-reverse !important;
+}
+
+[dir="rtl"] .justify-start, .rtl .justify-start {
+  justify-content: flex-end !important;
+}
+
+[dir="rtl"] .justify-end, .rtl .justify-end {
+  justify-content: flex-start !important;
+}
+
+/* RTL for text alignment */
+[dir="rtl"] .text-left, .rtl .text-left {
+  text-align: right !important;
+}
+
+[dir="rtl"] .text-right, .rtl .text-right {
+  text-align: left !important;
+}
+
+/* Override any inline styles */
+[dir="rtl"] [style*="text-align: left"], .rtl [style*="text-align: left"] {
+  text-align: right !important;
+}
+
+[dir="rtl"] [style*="direction: ltr"], .rtl [style*="direction: ltr"] {
+  direction: rtl !important;
+}
+
+[dir="rtl"] [style*="flex-direction: row"], .rtl [style*="flex-direction: row"] {
+  flex-direction: row-reverse !important;
+}

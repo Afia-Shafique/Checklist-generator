@@ -20,7 +20,7 @@ const Header = () => {
                 letterSpacing: '0.5px',
               }}
             >
-              Construction Doc Parser
+              Project Compliance Dashboard
             </Typography>
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -29,7 +29,7 @@ const Header = () => {
               color="secondary"
               component={RouterLink}
               to="/"
-              sx={{ mx: 1, borderRadius: '20px', boxShadow: 3 }}
+              sx={{ mx: 1, borderRadius: '20px', boxShadow: 3, color: '#fff', fontWeight: 700 }}
             >
               Home
             </Button>
@@ -38,7 +38,7 @@ const Header = () => {
               color="secondary"
               component={RouterLink}
               to="/upload"
-              sx={{ mx: 1, borderRadius: '20px', boxShadow: 3 }}
+              sx={{ mx: 1, borderRadius: '20px', boxShadow: 3, color: '#fff', fontWeight: 700 }}
             >
               Upload Document
             </Button>

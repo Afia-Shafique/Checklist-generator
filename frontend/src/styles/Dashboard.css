@@ -181,16 +181,29 @@ body {
 }
 
 .page-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--dark-gray);
-  margin-bottom: 4px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary-green);
+  margin: 0 0 8px 0;
+  position: relative;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-orange), var(--primary-green));
+  border-radius: 2px;
 }
 
 .page-subtitle {
   color: var(--medium-gray);
   font-size: 14px;
   margin: 0;
+  margin-top: 12px;
 }
 
 .header-right {
@@ -715,7 +728,7 @@ body {
   }
   
   .page-title {
-    font-size: 20px;
+    font-size: 24px;
   }
   
   .section-title {

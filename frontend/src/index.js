@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './i18n'; // Import i18n configuration
 import './index.css';
 import './components/styling/LandingPage.css'; // Import landing page styles
+import './styles/Dashboard.css'; // Ensure Dashboard styles (including .page-title) are global
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@mui/material/styles';

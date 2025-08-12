@@ -76,7 +76,6 @@ function App() {
             <>
               <Navbar />
               <UploadPage />
-              <FooterLandingPage />
             </>
           } />
           <Route path="/results" element={

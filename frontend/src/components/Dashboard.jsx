@@ -39,10 +39,10 @@ const Dashboard = () => {
                 </div>
                 <div className="project-image-container">
                   <img
-                    src={process.env.PUBLIC_URL + '/placeholder-construction.svg'}
-                    alt="Construction Placeholder"
+                    src={process.env.PUBLIC_URL + '/construction-placeholder.jpg'}
+                    alt="Project Placeholder"
                     className="project-image-placeholder"
-                    style={{ width: '180px', height: '180px', background: 'none', border: 'none' }}
+                    style={{ width: '320px', height: '180px', objectFit: 'cover', background: 'none', border: 'none', borderRadius: '12px' }}
                   />
                 </div>
               </div>

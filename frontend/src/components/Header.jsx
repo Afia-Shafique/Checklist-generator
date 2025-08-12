@@ -37,8 +37,12 @@ const Header = ({ onMenuClick, onLogout }) => {
           </button>
           {isDashboard && (
             <div className="header-titles">
-              <h1 className="page-title">Project Compliance Dashboard</h1>
-              <p className="page-subtitle">Manage and track compliance for construction project specifications.</p>
+              <h1 className="page-title">
+                Project Compliance Dashboard
+              </h1>
+              <p className="page-subtitle">
+                Manage and track compliance for construction project specifications.
+              </p>
             </div>
           )}
         </div>

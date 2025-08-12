@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Typography,
@@ -53,6 +54,8 @@ const DUBAI_CHAPTERS = [
 ];
 
 const ChapterSelector = ({ selectedChapters, setSelectedChapters }) => {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
   // Group chapters by category
   const chaptersByCategory = DUBAI_CHAPTERS.reduce((acc, chapter) => {
     if (!acc[chapter.category]) {
@@ -120,15 +123,20 @@ const ChapterSelector = ({ selectedChapters, setSelectedChapters }) => {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mt: 3 }}>
-      <Typography variant="h6" gutterBottom color="primary">
+    <Paper
+      elevation={3}
+      sx={{ p: 3, borderRadius: 2, mt: 3, direction: isArabic ? 'rtl' : 'ltr' }}
+      dir={isArabic ? 'rtl' : 'ltr'}
+      className={isArabic ? 'rtl' : ''}
+    >
+      <Typography variant="h6" gutterBottom color="primary" sx={{ textAlign: isArabic ? 'right' : 'left' }}>
         Select Dubai Building Code Chapters
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant="body2" color="text.secondary" paragraph sx={{ textAlign: isArabic ? 'right' : 'left' }}>
         Choose which chapters of the Dubai Building Code to use for matching.
       </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexDirection: isArabic ? 'row-reverse' : 'row' }}>
         <FormControlLabel
           control={
             <Checkbox

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   FormControl,
@@ -35,6 +36,8 @@ const groupedCodebooks = CODEBOOKS.reduce((acc, codebook) => {
 }, {});
 
 const CodebookSelector = ({ selectedCodebooks, setSelectedCodebooks }) => {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
   const handleToggleAll = () => {
     if (selectedCodebooks.length === CODEBOOKS.length) {
       setSelectedCodebooks([]);
@@ -78,15 +81,20 @@ const CodebookSelector = ({ selectedCodebooks, setSelectedCodebooks }) => {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 3, borderRadius: 2, mt: 3 }}>
-      <Typography variant="h6" gutterBottom color="primary">
+    <Paper
+      elevation={3}
+      sx={{ p: 3, borderRadius: 2, mt: 3, direction: isArabic ? 'rtl' : 'ltr' }}
+      dir={isArabic ? 'rtl' : 'ltr'}
+      className={isArabic ? 'rtl' : ''}
+    >
+      <Typography variant="h6" gutterBottom color="primary" sx={{ textAlign: isArabic ? 'right' : 'left' }}>
         Select Codebooks for Matching
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant="body2" color="text.secondary" paragraph sx={{ textAlign: isArabic ? 'right' : 'left' }}>
         Choose which SBC codebooks to use for matching with your document sections.
       </Typography>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, flexDirection: isArabic ? 'row-reverse' : 'row' }}>
         <Button
           variant="outlined"
           size="small"
