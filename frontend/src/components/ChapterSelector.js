@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Paper,
-  FormGroup,
   FormControlLabel,
   Checkbox,
   Divider,
@@ -14,10 +13,16 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const ChapterSelector = ({ selectedChapters, setSelectedChapters, selectedRegion }) => {
+const ChapterSelector = ({
+  selectedSubcategories,
+  setSelectedSubcategories,
+  selectedChapters,
+  setSelectedChapters,
+  selectedRegion
+}) => {
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
-  const [showAdvanced, setShowAdvanced] = useState(false); // ✅ Advanced toggle
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   useEffect(() => {
     if (selectedRegion === "dubai") {
@@ -34,61 +39,66 @@ const ChapterSelector = ({ selectedChapters, setSelectedChapters, selectedRegion
     }
   }, [selectedRegion]);
 
-  // ✅ Filter categories if not advanced
   const visibleCategories = Object.keys(categories).filter(cat => {
     if (!showAdvanced && (cat === "General" || cat === "Security")) return false;
     return true;
   });
 
-  // ✅ Get ALL visible checkbox IDs
-  const allChapterIds = visibleCategories
-    .flatMap(mainCat =>
-      Array.isArray(categories[mainCat])
-        ? categories[mainCat].flatMap(sub => sub.sections.map(sec => sec.section_id))
-        : []
+  const handleToggleSubcategory = (mainCat, subId) => {
+    const updatedSubs = selectedSubcategories.includes(subId)
+      ? selectedSubcategories.filter(id => id !== subId)
+      : [...selectedSubcategories, subId];
+    setSelectedSubcategories(updatedSubs);
+
+    // also update selectedChapters
+    const mainCatHasSelection = updatedSubs.some(sub => 
+      (categories[mainCat] || []).some(s => s.subcategory_id === sub)
     );
 
-  const handleToggleAll = () => {
-    if (selectedChapters.length === allChapterIds.length) {
-      setSelectedChapters([]);
-    } else {
-      setSelectedChapters(allChapterIds);
-    }
+    setSelectedChapters(prev => {
+      if (mainCatHasSelection) {
+        return prev.includes(mainCat) ? prev : [...prev, mainCat];
+      } else {
+        return prev.filter(ch => ch !== mainCat);
+      }
+    });
   };
 
   const handleToggleCategory = (mainCat) => {
-    const categoryIds = (categories[mainCat] || [])
-      .flatMap(sub => sub.sections.map(sec => sec.section_id));
+    const subIds = (categories[mainCat] || []).map(sub => sub.subcategory_id);
+    const allSelected = subIds.every(id => selectedSubcategories.includes(id));
 
-    const allSelected = categoryIds.every(id => selectedChapters.includes(id));
     if (allSelected) {
-      setSelectedChapters(selectedChapters.filter(id => !categoryIds.includes(id)));
+      setSelectedSubcategories(selectedSubcategories.filter(id => !subIds.includes(id)));
+      setSelectedChapters(prev => prev.filter(ch => ch !== mainCat));
     } else {
-      setSelectedChapters([
-        ...selectedChapters,
-        ...categoryIds.filter(id => !selectedChapters.includes(id))
-      ]);
+      setSelectedSubcategories([...new Set([...selectedSubcategories, ...subIds])]);
+      setSelectedChapters(prev => prev.includes(mainCat) ? prev : [...prev, mainCat]);
     }
   };
 
   const isCategorySelected = (mainCat) => {
-    const ids = (categories[mainCat] || [])
-      .flatMap(sub => sub.sections.map(sec => sec.section_id));
-    return ids.length > 0 && ids.every(id => selectedChapters.includes(id));
+    const subIds = (categories[mainCat] || []).map(sub => sub.subcategory_id);
+    return subIds.length > 0 && subIds.every(id => selectedSubcategories.includes(id));
   };
 
   const isCategoryIndeterminate = (mainCat) => {
-    const ids = (categories[mainCat] || [])
-      .flatMap(sub => sub.sections.map(sec => sec.section_id));
-    const selectedCount = ids.filter(id => selectedChapters.includes(id)).length;
-    return selectedCount > 0 && selectedCount < ids.length;
+    const subIds = (categories[mainCat] || []).map(sub => sub.subcategory_id);
+    const selectedCount = subIds.filter(id => selectedSubcategories.includes(id)).length;
+    return selectedCount > 0 && selectedCount < subIds.length;
   };
 
-  const handleToggleChapter = (chapterId) => {
-    if (selectedChapters.includes(chapterId)) {
-      setSelectedChapters(selectedChapters.filter(id => id !== chapterId));
+  const allSubIds = visibleCategories.flatMap(mainCat =>
+    (categories[mainCat] || []).map(sub => sub.subcategory_id)
+  );
+
+  const handleToggleAll = () => {
+    if (selectedSubcategories.length === allSubIds.length) {
+      setSelectedSubcategories([]);
+      setSelectedChapters([]);
     } else {
-      setSelectedChapters([...selectedChapters, chapterId]);
+      setSelectedSubcategories(allSubIds);
+      setSelectedChapters(visibleCategories);
     }
   };
 
@@ -98,10 +108,9 @@ const ChapterSelector = ({ selectedChapters, setSelectedChapters, selectedRegion
         Select Dubai Building Code Chapters
       </Typography>
       <Typography variant="body2" color="text.secondary" paragraph>
-        Choose which curated chapters of the Dubai Building Code to use for matching.
+        Choose which curated subcategories to use for matching.
       </Typography>
 
-      {/* ✅ Advanced toggle */}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
         <FormControlLabel
           control={
@@ -115,20 +124,19 @@ const ChapterSelector = ({ selectedChapters, setSelectedChapters, selectedRegion
         />
       </Box>
 
-      {/* ✅ Select All */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <FormControlLabel
           control={
             <Checkbox
-              checked={selectedChapters.length === allChapterIds.length}
-              indeterminate={selectedChapters.length > 0 && selectedChapters.length < allChapterIds.length}
+              checked={selectedSubcategories.length === allSubIds.length && allSubIds.length > 0}
+              indeterminate={selectedSubcategories.length > 0 && selectedSubcategories.length < allSubIds.length}
               onChange={handleToggleAll}
             />
           }
           label="Select All Chapters"
         />
         <Typography variant="body2" color="text.secondary">
-          {selectedChapters.length} of {allChapterIds.length} selected
+          {selectedSubcategories.length} of {allSubIds.length} selected
         </Typography>
       </Box>
 
@@ -156,29 +164,24 @@ const ChapterSelector = ({ selectedChapters, setSelectedChapters, selectedRegion
               />
             </AccordionSummary>
             <AccordionDetails>
-              {Array.isArray(categories[mainCat])
-                ? categories[mainCat].map((sub) => (
-                    <Box key={sub.subcategory} sx={{ mb: 2, pl: 2 }}>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>
-                        {sub.subcategory}
-                      </Typography>
-                      <FormGroup>
-                        {sub.sections.map((sec) => (
-                          <FormControlLabel
-                            key={sec.section_id}
-                            control={
-                              <Checkbox
-                                checked={selectedChapters.includes(sec.section_id)}
-                                onChange={() => handleToggleChapter(sec.section_id)}
-                              />
-                            }
-                            label={sec.section_title}
-                          />
-                        ))}
-                      </FormGroup>
-                    </Box>
-                  ))
-                : null}
+              {Array.isArray(categories[mainCat]) &&
+                categories[mainCat].map((sub) => (
+                  <Box key={sub.subcategory_id} sx={{ pl: 2 }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={selectedSubcategories.includes(sub.subcategory_id)}
+                          onChange={() => handleToggleSubcategory(mainCat, sub.subcategory_id)}
+                        />
+                      }
+                      label={
+                        <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                          {sub.subcategory_name}
+                        </Typography>
+                      }
+                    />
+                  </Box>
+                ))}
             </AccordionDetails>
           </Accordion>
         ))

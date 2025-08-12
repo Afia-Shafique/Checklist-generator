@@ -15,7 +15,7 @@ const UploadPage = () => {
   const [uploadData, setUploadData] = useState(null);
   const [selectedCodebooks, setSelectedCodebooks] = useState([]);
   const [selectedChapters, setSelectedChapters] = useState([]);
-  // const [processing, setProcessing] = useState(false);
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -28,75 +28,91 @@ const UploadPage = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
 
-  const handleNext = async () => {
-    if (activeStep === 2) {
-      if (selectedRegion === 'dubai' && selectedChapters.length === 0) {
-        setError('Please select at least one chapter');
-        return;
-      } else if (selectedRegion !== 'dubai' && selectedCodebooks.length === 0) {
-        setError('Please select at least one codebook');
-        return;
-      }
 
-      setActiveStep(3);
-      setError('');
+// Only showing the key changes in handleNext()
 
-      try {
-        // Build FormData for backend
-        const formData = new FormData();
-        formData.append('region', selectedRegion);
-        if (selectedRegion === 'dubai') {
-          formData.append('selected_chapters', JSON.stringify(selectedChapters));
-        } else {
-          selectedCodebooks.forEach(id => {
-            const codebookId = id.startsWith('SBC-') ? id : `SBC-${id}`;
-            formData.append('codebook_ids[]', codebookId);
-          });
-        }
-        // Add the uploaded file (must be the original File object)
-        if (uploadData && uploadData.file) {
-          formData.append('file', uploadData.file);
-        } else if (uploadData && uploadData.originalFile) {
-          formData.append('file', uploadData.originalFile);
-        } else {
-          setError('No uploaded file found.');
-          setActiveStep(2);
-          return;
-        }
-
-        const results = await matchSectionsWithCodebooks(formData);
-        console.log('DEBUG: Backend /api/match response:', results);
-        navigate('/results', {
-          state: {
-            uploadData,
-            matchedClauses: results.matched_clauses || [],
-            checklist: results.checklist || [],
-            selectedRegion,
-            referenceIds: selectedRegion === 'dubai' ? selectedChapters : selectedCodebooks
-          }
-        });
-      } catch (err) {
-        console.error('Processing error:', err);
-        setError('An error occurred during processing. Please try again.');
-        setActiveStep(2);
-      }
-    } else {
-      setActiveStep(activeStep + 1);
+const handleNext = async () => {
+  if (activeStep === 2) {
+    if (selectedRegion === 'dubai' && selectedChapters.length === 0) {
+      setError('Please select at least one chapter');
+      return;
+    } else if (selectedRegion !== 'dubai' && selectedCodebooks.length === 0) {
+      setError('Please select at least one codebook');
+      return;
     }
-  };
+
+    setActiveStep(3);
+    setError('');
+
+    try {
+      const formData = new FormData();
+      formData.append('region', selectedRegion);
+
+      if (selectedRegion === 'dubai') {
+        formData.append('selected_chapters', JSON.stringify(selectedChapters));
+        formData.append('selected_subcategories', JSON.stringify(selectedSubcategories));
+      } else {
+        selectedCodebooks.forEach(id => {
+          const codebookId = id.startsWith('SBC-') ? id : `SBC-${id}`;
+          formData.append('codebook_ids[]', codebookId);
+        });
+      }
+
+      if (uploadData?.file) {
+        formData.append('file', uploadData.file);
+      } else if (uploadData?.originalFile) {
+        formData.append('file', uploadData.originalFile);
+      } else {
+        setError('No uploaded file found.');
+        setActiveStep(2);
+        return;
+      }
+
+      const results = await matchSectionsWithCodebooks(formData);
+      navigate('/results', {
+        state: {
+          uploadData,
+          matchedClauses: results.matched_clauses || [],
+          checklist: results.checklist || [],
+          selectedRegion,
+          referenceIds: selectedRegion === 'dubai' ? selectedChapters : selectedCodebooks
+        }
+      });
+    } catch (err) {
+      console.error('Processing error:', err);
+      setError('An error occurred during processing. Please try again.');
+      setActiveStep(2);
+    }
+  } else {
+    setActiveStep(activeStep + 1);
+  }
+};
+
+
+
+
 
   const getStepContent = (step) => {
     switch (step) {
       case 0:
         return <RegionSelector selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} />;
       case 1:
-        return <FileUpload onUploadSuccess={handleUploadSuccess} selectedRegion={selectedRegion} />;
+        return (
+          <FileUpload
+            onUploadSuccess={handleUploadSuccess}
+            selectedRegion={selectedRegion}
+            selectedChapters={selectedChapters}
+            selectedSubcategories={selectedSubcategories}
+          />
+        );
       case 2:
         return selectedRegion === 'dubai' ? (
           <ChapterSelector
             selectedChapters={selectedChapters}
             setSelectedChapters={setSelectedChapters}
             selectedRegion={selectedRegion}
+            selectedSubcategories={selectedSubcategories}
+            setSelectedSubcategories={setSelectedSubcategories}
           />
         ) : (
           <CodebookSelector
@@ -157,11 +173,12 @@ const UploadPage = () => {
             color="primary"
             onClick={handleNext}
             disabled={
-              (activeStep === 0 && !selectedRegion) ||
-              (activeStep === 1 && !uploadData) ||
-              (activeStep === 2 && selectedRegion === 'dubai' && selectedChapters.length === 0) ||
-              (activeStep === 2 && selectedRegion !== 'dubai' && selectedCodebooks.length === 0)
-            }
+                    (activeStep === 0 && !selectedRegion) ||
+                    (activeStep === 1 && !uploadData) ||
+                    (activeStep === 2 && selectedRegion === 'dubai' && selectedChapters.length === 0) ||
+                    (activeStep === 2 && selectedRegion !== 'dubai' && selectedCodebooks.length === 0)
+      }
+
           >
             {activeStep === 2 ? 'Process Document' : 'Next'}
           </Button>

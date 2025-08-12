@@ -1,33 +1,53 @@
 {
   "A": {
-    "label": "General (Part A)",
-    "subcategories": []
+    "label": "General & Compliance (Part A)",
+    "subcategories": [
+      {
+        "id": "A.definitions",
+        "name": "Definitions & References",
+        "prefixes": ["A.2", "A.3", "A.4"],
+        "keywords": ["definitions", "references", "terminology", "terms", "glossary"]
+      },
+      {
+        "id": "A.scope",
+        "name": "Scope & Application",
+        "prefixes": ["A.5"],
+        "keywords": ["scope", "application", "applicability", "coverage"]
+      },
+      {
+        "id": "A.compliance",
+        "name": "Compliance & Alternative Solutions",
+        "prefixes": ["A.6", "A.8"],
+        "keywords": ["compliance", "alternative solutions", "approvals", "standards compliance"]
+      }
+    ]
   },
   "B": {
-    "label": "Architecture (Part B)",
+    "label": "Architecture & Space Planning (Part B)",
     "subcategories": [
       {
         "id": "B.space",
         "name": "Space Planning & Occupancy",
-        "prefixes": [
-          "B.1",
-          "B.5"
-        ]
+        "prefixes": ["B.1", "B.5"],
+        "keywords": ["space planning", "occupancy", "room layout", "floor area"]
       },
       {
         "id": "B.circulation",
         "name": "Circulation & Egress",
-        "prefixes": [
-          "B.6"
-        ]
+        "prefixes": ["B.6"],
+        "keywords": ["circulation", "egress", "hallways", "corridors", "movement paths"]
       },
       {
         "id": "B.special",
-        "name": "Special Building Types",
-        "prefixes": [
-          "B.8",
-          "B.9"
-        ]
+        "name": "Special Building Types & Uses",
+        "prefixes": ["B.8", "B.9"],
+        "keywords": ["special buildings", "unique uses", "special occupancy"]
+      },
+      {
+        "id": "B.parking",
+        "name": "Parking & Access",
+        "prefixes": ["B.7"],
+        "keywords": ["parking", "vehicle access", "car park", "garage"]
       }
     ]
   },
@@ -37,24 +57,20 @@
       {
         "id": "C.routes",
         "name": "Accessible Routes & Entrances",
-        "prefixes": [
-          "C.5",
-          "C.6"
-        ]
+        "prefixes": ["C.5", "C.6"],
+        "keywords": ["accessible routes", "entrances", "wheelchair access", "ramps"]
       },
       {
         "id": "C.facilities",
         "name": "Sanitary & Changing Facilities",
-        "prefixes": [
-          "C.8"
-        ]
+        "prefixes": ["C.8"],
+        "keywords": ["accessible toilets", "changing rooms", "sanitary facilities"]
       },
       {
         "id": "C.signage",
         "name": "Signage & Wayfinding",
-        "prefixes": [
-          "C.11"
-        ]
+        "prefixes": ["C.11"],
+        "keywords": ["signage", "wayfinding", "sign boards", "direction signs"]
       }
     ]
   },
@@ -64,17 +80,14 @@
       {
         "id": "D.elevators",
         "name": "Elevators & Escalators",
-        "prefixes": [
-          "D.8",
-          "D.9"
-        ]
+        "prefixes": ["D.8", "D.9"],
+        "keywords": ["elevators", "lifts", "escalators", "vertical transport"]
       },
       {
         "id": "D.fire_service",
         "name": "Fire & Service Lifts",
-        "prefixes": [
-          "D.7"
-        ]
+        "prefixes": ["D.7"],
+        "keywords": ["fire lifts", "service lifts", "emergency elevators"]
       }
     ]
   },
@@ -84,25 +97,20 @@
       {
         "id": "E.thermal",
         "name": "Thermal Performance",
-        "prefixes": [
-          "E.5"
-        ]
+        "prefixes": ["E.5"],
+        "keywords": ["thermal performance", "insulation", "heat resistance"]
       },
       {
         "id": "E.glazing",
         "name": "Windows & Glazing",
-        "prefixes": [
-          "E.2",
-          "E.9"
-        ]
+        "prefixes": ["E.2", "E.9"],
+        "keywords": ["windows", "glazing", "glass panels"]
       },
       {
         "id": "E.facade",
         "name": "Facade & Cladding",
-        "prefixes": [
-          "E.4",
-          "E.10"
-        ]
+        "prefixes": ["E.4", "E.10"],
+        "keywords": ["facade", "cladding", "building exterior"]
       }
     ]
   },
@@ -112,52 +120,49 @@
       {
         "id": "F.loads",
         "name": "Structural Loads & Actions",
-        "prefixes": [
-          "F.7",
-          "F.8"
-        ]
+        "prefixes": ["F.7", "F.8"],
+        "keywords": ["structural loads", "dead load", "live load"]
       },
       {
         "id": "F.foundation",
         "name": "Foundations & Geotechnical",
-        "prefixes": [
-          "F.9",
-          "F.10"
-        ]
+        "prefixes": ["F.9", "F.10"],
+        "keywords": ["foundations", "geotechnical", "soil bearing"]
       },
       {
         "id": "F.materials",
         "name": "Construction Materials",
-        "prefixes": [
-          "F.11"
-        ]
+        "prefixes": ["F.11"],
+        "keywords": ["construction materials", "concrete", "steel", "timber"]
       }
     ]
   },
   "G": {
-    "label": "Incoming Utilities (Part G)",
+    "label": "MEP & Utilities (Part G)",
     "subcategories": [
       {
         "id": "G.electrical",
         "name": "Electrical Supply",
-        "prefixes": [
-          "G.4",
-          "G.7"
-        ]
+        "prefixes": ["G.4", "G.7"],
+        "keywords": ["electrical supply", "power distribution", "electricity"]
       },
       {
-        "id": "G.water",
+        "id": "G.plumbing",
         "name": "Water Supply & Drainage",
-        "prefixes": [
-          "G.9"
-        ]
+        "prefixes": ["G.9"],
+        "keywords": ["plumbing", "water supply", "drainage"]
       },
       {
         "id": "G.cooling",
         "name": "District Cooling",
-        "prefixes": [
-          "G.10"
-        ]
+        "prefixes": ["G.10"],
+        "keywords": ["district cooling", "chilled water", "central cooling"]
+      },
+      {
+        "id": "G.gas",
+        "name": "Gas & Fuel Systems",
+        "prefixes": ["G.11"],
+        "keywords": ["gas supply", "fuel system", "gas pipeline"]
       }
     ]
   },
@@ -167,57 +172,66 @@
       {
         "id": "H.hvac",
         "name": "HVAC & Thermal Comfort",
-        "prefixes": [
-          "H.4"
-        ]
+        "prefixes": ["H.4"],
+        "keywords": ["hvac", "air conditioning", "thermal comfort", "heating", "cooling"]
       },
       {
         "id": "H.lighting",
         "name": "Lighting & Daylighting",
-        "prefixes": [
-          "H.3",
-          "H.7"
-        ]
+        "prefixes": ["H.3", "H.7"],
+        "keywords": ["lighting", "illumination", "daylighting", "lux levels", "brightness"]
       },
       {
         "id": "H.acoustics",
         "name": "Acoustics",
-        "prefixes": [
-          "H.3.2"
-        ]
+        "prefixes": ["H.3.2"],
+        "keywords": ["acoustics", "sound insulation", "noise control"]
+      },
+      {
+        "id": "H.ventilation",
+        "name": "Air Quality & Ventilation",
+        "prefixes": ["H.5", "H.6"],
+        "keywords": ["ventilation", "air quality", "fresh air", "air changes"]
       }
     ]
   },
   "J": {
     "label": "Security (Part J)",
-    "subcategories": []
+    "subcategories": [
+      {
+        "id": "J.cctv",
+        "name": "CCTV & Surveillance",
+        "prefixes": ["J.5"],
+        "keywords": ["cctv", "surveillance", "security cameras"]
+      },
+      {
+        "id": "J.access_control",
+        "name": "Access Control Systems",
+        "prefixes": ["J.4"],
+        "keywords": ["access control", "security system", "entry control"]
+      }
+    ]
   },
   "K": {
-    "label": "Villas (Part K)",
+    "label": "Villas & Special Buildings (Part K)",
     "subcategories": [
       {
         "id": "K.arch",
         "name": "Architectural Rules",
-        "prefixes": [
-          "K.3",
-          "K.5"
-        ]
+        "prefixes": ["K.3", "K.5"],
+        "keywords": ["villa architecture", "special building design"]
       },
       {
         "id": "K.struct",
         "name": "Structural Rules",
-        "prefixes": [
-          "K.7",
-          "K.8"
-        ]
+        "prefixes": ["K.7", "K.8"],
+        "keywords": ["villa structure", "special building structure"]
       },
       {
         "id": "K.services",
         "name": "Services (Electrical, HVAC, Plumbing)",
-        "prefixes": [
-          "K.9",
-          "K.10"
-        ]
+        "prefixes": ["K.9", "K.10"],
+        "keywords": ["villa services", "electrical", "hvac", "plumbing"]
       }
     ]
   }

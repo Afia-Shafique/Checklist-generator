@@ -12,7 +12,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { uploadDocument } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
-const FileUpload = ({ onUploadSuccess, selectedRegion, selectedChapters }) => {
+const FileUpload = ({ onUploadSuccess, selectedRegion }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -49,25 +49,16 @@ const FileUpload = ({ onUploadSuccess, selectedRegion, selectedChapters }) => {
 
     const formData = new FormData();
     formData.append('file', file);
-    // Pass the selected region to the backend
     formData.append('region', selectedRegion || 'saudi');
-
-    if (selectedRegion === 'dubai') {
-      formData.append('selected_chapters', JSON.stringify(selectedChapters));
-    }
-    // If you want to support Saudi uploads with codebook_ids from this component, add a prop for selectedCodebooks and use it here.
 
     setLoading(true);
     setError('');
 
     try {
-      // Call the API endpoint with the file and region
       const result = await uploadDocument(formData, selectedRegion || 'saudi');
-
       if (onUploadSuccess) {
         onUploadSuccess(result, file);
       } else {
-        // Navigate to results page with the data
         navigate('/results', { state: { data: result } });
       }
     } catch (err) {
@@ -94,9 +85,7 @@ const FileUpload = ({ onUploadSuccess, selectedRegion, selectedChapters }) => {
           sx={{ mt: 3, mb: 3 }}
         >
           <input {...getInputProps()} />
-          <CloudUploadIcon
-            sx={{ fontSize: 48, color: 'primary.main', mb: 2 }}
-          />
+          <CloudUploadIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
           {isDragActive ? (
             <Typography variant="body1">Drop the file here...</Typography>
           ) : (
